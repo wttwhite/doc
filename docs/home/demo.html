@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function permutation(str) {
+            function remove(str, i) {
+                const newSet = new Set([...str])
+                newSet.delete(i)
+                return newSet
+            }
+            function flattern (array) {
+                if (!Array.isArray(array)) {
+                    return array
+                } else {
+                    return [].concat(...array.map(arr => flattern(arr)))
+                }
+            }
+            // console.log(flattern([1,[2,[3,[4,5]],6]]))
+            function R(set) {
+                if(set.size === 1) {
+                    return [set.values().next().value]
+                } else {
+                    return flattern([...set].map(char => R( remove(set,char)).map(perm => char + perm) ))
+                }
+            }
+            return R(new Set([...str])) // ['a','b','c']
+        }
+        console.log(permutation('abc'))
+    </script>
+</body>
+</html>

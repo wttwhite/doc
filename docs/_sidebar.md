@@ -6,3 +6,4 @@
 * [promise原理](/home/promise.md)
 * [instanceof原理](/home/instanceof.md)
 * [axios原理](/home/axios.md)
+* [函数式编程](/home/function.md)

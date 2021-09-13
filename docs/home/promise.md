@@ -1,6 +1,6 @@
 ### promise
 
-#### 区别实例对象与函数对象
+#### 1. 区别实例对象与函数对象
 
 - 实例对象：new函数产生的对象，称为实例对象，简称对象
 - 函数对象：将函数作为对象使用时，简称为函数对象
@@ -11,7 +11,7 @@ const fn = new Fn() -> Fn是构造函数，fn是实例对象
 Fn.prototype -> 函数对象
 ```
 
-#### 宏队列与微队列
+#### 2. 宏队列与微队列
 
 - 宏队列：dom事件回调、ajax 回调、定时器回调
 - 微队列：promise回调、mutation（new MutationObserver(callback)观察DOM树结构发生变化时,做出相应处理的API）
