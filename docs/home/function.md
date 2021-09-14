@@ -31,7 +31,9 @@ function permutation(str) {
         if(set.size === 1) {
             return [set.values().next().value]
         } else {
-            return flattern([...set].map(char => R( remove(set,char)).map(perm => char + perm) ))
+            return flattern([...set].map(char => 
+							R( remove(set,char)).map(perm => char + perm) 
+						))
         }
     }
     return R(new Set([...str])) // ['a','b','c']
@@ -39,6 +41,47 @@ function permutation(str) {
 console.log(permutation('abc')) //  ["abc", "acb", "bac", "bca", "cab", "cba"]
 ```
 #### 2. 节流
-
+```javascript
+function throttle (fn, wait = 2000) {
+	let open = true
+	return (...args) => {
+		if (!open) {
+			return
+		}
+		open = false
+		fn(...args)
+		let mod = new Date().getTime() % wait
+		setTimeout(() => {
+			open = true
+		}, wait - mod)
+	}
+}
+let count = 0
+let timer = setInterval(throttle(() => {
+	if(count > 100) {
+		clearInterval(timer)
+	} else {
+		console.log(count++)
+	}
+}), 100)
+```
 #### 3. 柯里化
+```javascript
+function curry(fn) {
+	const g = (...args) => {
+		if(args.length >= fn.length) {
+			return fn(...args)
+		}
+		return (...left) => {
+			return g(...args, ...left)
+		}
+	}
+	return g
+}
+function a (a, b, c, d) {
+	return a + b + c + d
+}
+const aa = curry(a)
+console.log(aa(1)(2)(3, 4)) // 10
+```
 #### 4. 实现一个Animated<T>的Monad

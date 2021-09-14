@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function axios({
+            url,
+            method = 'GET',
+            params = {},
+            data = {}
+        }) {
+            // 返回一个promise对象
+            return new Promise((resolve, reject) => {
+                // 执行异步ajax请求，创建XHR对象
+                const request = new XMLHttpRequest()
+                // 打开链接（初始化请求，没有请求）
+                request.open(method, url, true)
+                // 发送请求
+                request.send()
+                
+            })
+        }
+        function test() {
+            axios({
+                url: 'http://localhost:3000/get'
+            })
+        }
+        test()
+    </script>
+</body>
+</html>
