@@ -1,9 +1,21 @@
+* home
+    * [学习路线](README.md)
+    <!-- * [post文件流下载](/fs/post.md) -->
+    * [防抖节流](/home/debounce.md)
+    * [webpack原理](/home/webpack.md)
+    * [promise原理](/home/promise.md)
+    * [instanceof原理](/home/instanceof.md)
+    * [axios原理](/home/axios.md)
+    * [函数式编程](/home/function.md)
+    * [设计模式](/home/designPatterns.md)
 * 整理
     * [post文件流下载](/fs/post.md)
     * [vue](/fs/vue.md)
 * vue3
     * [vue3相对于vue2的优化方案](/vue3/vue3diffvue2.md)
-
+* css
+    * [高斯模糊](/css/gaussianBlur.md)
+    * [翻转](/css/filp.md)
 * 面试题
     * [计算机网络](/interview/all.md)
     * [js](/interview/js.md)
