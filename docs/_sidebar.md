@@ -1,7 +1,8 @@
 
 * [学习路线](README.md)
-* [post文件流下载](/fs/post.md)
 * [防抖节流](/home/debounce.md)
+* [vue2数据双向绑定](/home/vue2model.md)
+* [原型及原型链](/home/prototype.md)
 * [webpack原理](/home/webpack.md)
 * [promise原理](/home/promise.md)
 * [instanceof原理](/home/instanceof.md)

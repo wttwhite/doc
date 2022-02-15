@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue数据双向绑定</title>
+</head>
+<body>
+  <div id="demo1">demo1</div>
+  <script>
+    const Dep = {
+      list: [],
+      listen: function (key, fn) {
+        (this.list[key] || (this.list[key] = [])) && this.list[key].push(fn)
+      },
+      trigger: function () {
+        const key = Array.prototype.shift.call(arguments)
+        const fns = this.list[key] || []
+        fns.length && fns.forEach(fn => {
+          fn.apply(this, arguments)
+        })
+      }
+    }
+    function demo (obj, key, htmlId ) {
+      let value = ''
+      Object.defineProperty(obj, key, {
+        get: function () {
+          return value
+        },
+        set: function (val) {
+          value = val
+          Dep.trigger(key, val)
+        }
+      })
+      Dep.listen(key, function(val) {
+        console.log('objobjobj' , obj)
+        document.getElementById(htmlId).innerHTML = val
+      })
+    }
+    let obj = {}
+    demo(obj, 'demo', 'demo1')
+    
+  </script>
+</body>
+</html>
