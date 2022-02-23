@@ -2,6 +2,9 @@
     * [学习路线](README.md)
     <!-- * [post文件流下载](/fs/post.md) -->
     * [防抖节流](/home/debounce.md)
+    * [vue2数据双向绑定](/home/vue2model.md)
+    * [vue生命周期](/home/vue生命周期.md)
+    * [原型及原型链](/home/prototype.md)
     * [webpack原理](/home/webpack.md)
     * [promise原理](/home/promise.md)
     * [instanceof原理](/home/instanceof.md)
@@ -13,10 +16,13 @@
     * [vue](/fs/vue.md)
 * vue3
     * [vue3相对于vue2的优化方案](/vue3/vue3diffvue2.md)
+* git
+    * [merge和rebase](/git/合并.md)
 * css
     * [高斯模糊](/css/gaussianBlur.md)
     * [翻转](/css/filp.md)
 * 面试题
     * [计算机网络](/interview/all.md)
     * [js](/interview/js.md)
+    * [es6](/interview/es6.md)
     * [vue2](/interview/vue2.md)
