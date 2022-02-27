@@ -1,0 +1,23 @@
+{
+  "name": "chrome-plugin-demo",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "icons": {
+    "16": "icon.ico",
+    "48": "icon.ico",
+    "128": "icon.ico"
+  },
+  "browser_action": {
+    "default_title": "demo",
+    "default_icon": "icon.ico",
+    "default_popup": "index.html"
+  },
+  "content_scripts": [{
+    "matches": ["https://www.jianshu.com/*"],
+    "css": [],
+    "js": ["index.js"],
+    "all_frames": true,
+    "run_at": "document_end"
+  }],
+  "permissions": []
+}

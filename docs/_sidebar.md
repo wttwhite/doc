@@ -4,6 +4,7 @@
 * [vue2数据双向绑定](/home/vue2model.md)
 * [vue生命周期](/home/vue生命周期.md)
 * [原型及原型链](/home/prototype.md)
+* [插件编写](/home/插件.md)
 * [webpack原理](/home/webpack.md)
 * [promise原理](/home/promise.md)
 * [instanceof原理](/home/instanceof.md)
