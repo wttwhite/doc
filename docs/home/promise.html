@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>promise</title>
+</head>
+<body>
+	<script>
+		// 1. 基本结构：状态、成功值、失败值、成功的方法、失败的方法、then方法
+		// 2. 立即调用
+		// 3. 状态管理
+		// 4. .then方法被缓存后置调用了（异步）
+		// 5. 链式调用
+		function myPromise (fun) {
+			this.status = 'pending'
+			this.value = null
+			this.reason = null
+			this.onfulfilleds = []
+			this.resolve = (value) => {
+				if (this.status === 'pending') {
+					this.value = value
+					this.status = 'fulfilled'
+					for(let item of this.onfulfilleds) {
+						item(value)
+					}
+				}
+			}
+			this.reject = (err) => {
+				if (this.status === 'pending') {
+					this.reason = err
+					this.status = 'rejected'
+				}	
+			}
+			try {
+				fun(this.resolve, this.reject)
+			} catch (error) {
+				this.reject(error)
+			}
+		}
+		myPromise.prototype.then = function (onfulfilled, onrejected) {
+			onfulfilled = typeof onfulfilled === 'function' ? onfulfilled : function (data) { this.resolve(data)}
+			if(this.status ==='pending') {
+				return new myPromise((resolve, reject) => {
+					this.onfulfilleds.push(() => {
+						let x = onfulfilled(this.value)
+						console.log('1', x instanceof myPromise)
+						x instanceof myPromise ? x.then(resolve, reject): resolve(x)
+					})
+				})
+				
+				
+			}
+			if (this.status === 'fulfilled') {
+				return new myPromise((resolve, reject) => {
+					let x = onfulfilled(this.value)
+					console.log('2', x instanceof myPromise)
+						x instanceof myPromise ? x.then(resolve, reject): resolve(x)
+					// resolve(onfulfilled(this.value))
+				})
+			}
+			// onrejected = typeof onrejected === 'function' ? onrejected : function (err) { throw new Error(err)}
+		}
+		const demo = new myPromise((resolve, reject) => {
+			setTimeout(() => {
+				resolve(111)
+			}, 2000)
+		})
+		demo.then(res => {
+			console.log(res)
+			new myPromise((resolve, reject) => {
+				resolve(222)
+			})
+		}).then(res => {
+			console.log('222', res)
+		})
+
+		console.log('--------')
+
+		const pomise = new Promise((resolve, reject) => {
+			setTimeout(() => {
+				resolve(111)
+			}, 2000)
+		})
+		// pomise.then(res => {
+		// 	console.log(res)
+		// 	new Promise((resolve, reject) => {
+		// 		resolve(222)
+		// 	})
+		// }).then(res => {
+		// 	console.log('bbb', res)
+		// })
+
+
+		function demoPromise (func) {
+			this.status = 'pending'
+			this.value = null
+			this.reason = null
+			this.onFulfilledCallback = []
+			this.onRejectedCallback = []
+			this.resolve = (val) => {
+				if (this.status === 'pending') {
+					this.status = 'fulfilled'
+					this.value = val
+					for(let item of this.onFulfilledCallback) {
+						item(val)
+					}
+				}
+			}
+			this.reject = (reason) => {
+				if (this.status === 'pending') {
+					this.status = 'rejected'
+					this.reason = reason
+					for(let item of this.onRejectedCallback) {
+						item(reason)
+					}
+				}
+			}
+			if (typeof func !== 'function') {
+				throw new Error('aaa')
+			} else {
+				func(this.resolve.bind(this), this.reject.bind(this))
+			}
+
+		}
+		demoPromise.prototype.then = function (fulfilled, rejected) {
+			if (typeof fulfilled !== 'function') {
+				return
+			}
+			if (typeof rejected !== 'function') {
+				return
+			}
+			if (this.status === 'pending') {
+				return new demoPromise((resolve, reject) => {
+					this.onFulfilledCallback.push(fulfilled)
+					this.onRejectedCallback.push(rejected)
+				})
+				
+			}
+			if (this.status === 'fulfilled') {
+				return new demoPromise((resolve, reject) => {
+					fulfilled(this.value)
+				})
+			}
+			if (this.status === 'rejected') {
+				rejected(this.reason)
+			}
+		} 
+		const a = new demoPromise((resolve, reject) => {
+			setTimeout(() => {
+				resolve('aaaa')
+			}, 3000)
+		}).then(res => {
+			console.log(res)
+		}, reject => {
+
+		}).then(res => {
+			console.log('cccc')
+		})
+	</script>
+</body>
+</html>
