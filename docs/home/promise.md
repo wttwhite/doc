@@ -112,6 +112,104 @@ new Promise((resolve, reject) => {
 ```
 
 
+#### 1. promise 解决的问题
+
+回调地狱
+
+缺点：
+
+1. 无法中途取消promise
+2. 如果不设置回调函数，promise内部抛出的错误，不会反应到外部
+3. 当处于pending时，无法得知当前发展到哪一阶段（刚刚开始还是即将完成）
+
+#### 2. 基本规范
+
+- 三种状态:  pending、fulfilled、rejected
+- 状态只能从等待到已完成或已拒绝，不可逆
+- then方法接受一个成功的回调和一个失败的回调
+- then方法返回promise，可链式调用
+
+#### 3. 基本api
+
+- Promise.resolve()
+- Promise.reject()
+- Promise.all()：参数可以不是数组，但必须有iterator接口；全部变为resolve或遇到第一个reject时调用then； 同时开始、并行执行；
+- Promise.race()：只要有一个resolve或者reject就会调用then；后面的promise对象还是会继续执行的；
+- Promise.prototype.then()
+- Promise.prototype.catch()
+
+##### 3.1 catch
+
+promise对象的错误具有"冒泡"性质，会一直向后传递，直到被捕获为止。也就是说，错误总会被下一个catch语句捕获
+
+有了then里面的第二个函数捕获错误，为什么还要catch
+
+- then的第二个函数并不能捕获第一个函数参数抛出的错误，then针对的是promise对象抛出的错误
+
+##### 3.2 resolve 
+
+可以将现有对象转为promise对象
+
+该函数的参数四种情况：
+
+1. 参数是一个promise实例， 直接返回实例
+2. 参数是一个thenable对象（一个具有.then方法的对象），会将其转为promise对象，并立即执行then方法
+3. 参数是其他基础类型，返回一个新的promise对象，并且状态resolved； `Promise.resolve(1)`
+4. 不带任何参数，直接返回状态为resolved的promise对象
+
+##### 3.3 reject
+
+ 返回一个新的 Promise 实例，该实例的状态为rejected 
+
+##### 3.4 all
+
+Promise.all方法用于将多个Promise实例，包装成一个新的Promise实例。如果传入的不是不是Promise对象就会调用Promise.reslove()方法将其转换成Promise实例。
+
+#### 4. 基本使用
+
+```javascript
+function getUrl(url) {
+    return new Promise((resolve, reject) => {
+        const req = new XMLHttpRequest()
+        req.open('GET', url, true)
+        req.onload = function () {
+            if (req.status === 200) {
+                resolve(req.statusText)
+            } else {
+                reject(new Error(req.statusText))
+            }
+        }
+        req.onerror = function () {
+            reject(new Error(req.statusText))
+        }
+        req.send()
+    })
+}
+getUrl('https://www.jianshu.com/p/d731c2b4c10a').then(res => {
+    console.log('res', res)
+}).catch(err => {
+    console.log('err', err)
+})
+```
+
+#### 5.promise只能进行异步操作?
+
+ 因为同步调用和异步调用同时存在容易导致一些混乱。 调用先后顺序不可控
+
+ **为了解决这个问题，我们可以选择统一使用异步调用的方式。** 
+
+#### 6. 实现
+
+```jsx
+ _this.onResolvedCallback = [] // Promise resolve时的回调函数集，因为在Promise结束之前有可能有多个回调添加到它上面
+```
+
+```jsx
+ // 根据标准，如果then的参数不是function，则我们需要忽略它，此处以如下方式处理   实参留空 且让值可以穿透到后面
+  onResolved = typeof onResolved === 'function' ? onResolved : function(value) {return value;}
+```
+
+https://blog.csdn.net/my_new_way/article/details/104730105
 
 
 
